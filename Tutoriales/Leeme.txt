@@ -1,3 +1,5 @@
 Aquí voy a poner los prg de los tutoriales que iré incluyendo en el engine.
 Serán sencillos y representativos para mostrar el potencial y la facilidad
 de uso que tiene este engine llamado Con2Pelotas XD.
+
+Nota:Los ejemplos es factible que surjan cambios a medida que se vayan integrando/cambiando nuevas funciones En2pelotas.
