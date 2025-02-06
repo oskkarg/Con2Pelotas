@@ -8,13 +8,13 @@
 --    ██║     ██║   ██║██║╚██╗██║    ██╔═══╝     ██╔═══╝ ██╔══╝  ██║     ██║   ██║   ██║   ██╔══██║╚════██║
 --   ╚██████╗╚██████╔╝ ██║ ╚████║    ███████╗    ██║     ███████╗███████╗╚██████╔╝   ██║   ██║  ██║███████║
 --   ╚═════╝ ╚═════╝ ╚═╝   ╚═══╝    ╚══════╝    ╚═╝     ╚══════╝╚══════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝
---                         TUTORIAL 01 --..  Rotacion + creacion de Semilla + Estados con Goto        -----                     
+--                         TUTORIAL 01 --.. Simple Nave rotacion disparos Con Meteoritos        -----                     
 --💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀
 --💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀
 --🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩
 require 'libreriasOscar/librerias'
 
-local id_textos={}
+ id_textos={}
 local PUNTUACION = 0
 local text_size = 28
 
@@ -34,6 +34,7 @@ local animacion = {
 	
 }
 
+--██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 --██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 -- Función love.load: Inicializa el juego y carga los recursos necesarios
@@ -98,37 +99,29 @@ end
 -- Función para controlar el texto que muestra la puntuación en la pantalla
 function controla_texto(proceso)
     -- Si el proceso no tiene un nombre asignado, inicializa las propiedades del texto
-    if proceso.nombre == nil then
-        proceso.hoja = 1                    -- Asigna el índice de la hoja del sprite (puede estar relacionado con el gráfico)
-        proceso.nombre = "texto"             -- Asigna un nombre al proceso (en este caso, "texto")
-        proceso.grafico = 1                  -- Asigna un gráfico o sprite (probablemente el texto se representa con un gráfico)
-        proceso.size_x = 0.1                 -- Tamaño en el eje X (puede ser un factor de escala)
-        proceso.size_y = 0.1                 -- Tamaño en el eje Y (puede ser un factor de escala)
+    if not proceso.nombre then
+        proceso.nombre = "texto"
+        proceso.hoja = 1
+        proceso.grafico = 1
+        proceso.size_x = 0.1
+        proceso.size_y = 0.1
 
-        -- Se obtiene el valor de z (probablemente relacionado con la profundidad de renderizado)
-        local x = proceso.z
-        set_color(1, 1, 0, 1)                -- Establece el color amarillo (RGB: 1, 1, 0) y opacidad (1)
-        
-        -- Crea el texto que muestra la puntuación en las coordenadas (220, 10)
-        id_textos[1] = escribe_texto("Puntos: " .. PUNTUACION, 220, 10)
-        
-        -- Cambia el tamaño del texto que se acaba de crear
-        texto_size(id_textos[1], 24)
-        
-        -- Almacena la puntuación actual para poder verificar cambios después
-        proceso.puntuacion_anterior = PUNTUACION
-    end
+        -- Establece el color amarillo
+        set_color(1, 1, 0, 1)
 
-    -- Detecta si ha habido un cambio en la puntuación
-    if PUNTUACION ~= proceso.puntuacion_anterior then
-        -- Si la puntuación ha cambiado, actualiza el texto en la pantalla con la nueva puntuación
-		-- De momento lo dejamos asi,es un poco engorroso,tengo que mirar de cambiar esto 💀💀💀💀💀💀💀💀💀💀💀💀💀💀
-        actualiza_Texto(id_textos[1], "Puntos: " .. PUNTUACION, 220, 10)
-        
-        -- Actualiza la puntuación anterior para la próxima comparación
-        proceso.puntuacion_anterior = PUNTUACION
+        -- Inicializa el texto de puntuación con un tamaño de fuente de 24
+        proceso.id_texto = escribe_texto("Puntos: " .. PUNTUACION, 220, 10)
+
+        -- Aquí aplicamos el tamaño de texto específico
+        texto_size(proceso.id_texto, 24)  -- Usa la ID del proceso y el tamaño deseado
     end
+    -- Actualiza el texto solo si la puntuación ha cambiado
+    local nuevo_texto = "Puntos: " .. PUNTUACION
+    actualiza_Texto(proceso.id_texto, nuevo_texto, 220, 10)
+	
+	
 end
+
 --██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 
@@ -314,6 +307,8 @@ function Disparo(disparo)
 end
 
 
+
+--██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 --██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████
 
 function bucle_Infinito()
